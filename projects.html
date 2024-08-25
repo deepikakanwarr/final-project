@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <title>Deepika's Projects</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: rgb(205, 128, 178);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 80px;
+      background-color: rgba(205, 128, 178);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+    }
+    nav ul li {
+      list-style: none;
+      margin: 0 19px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: rgb(234, 211, 225);
+    }
+    nav ul li a:hover {
+      color: rgb(234, 211, 225);
+      font-size: 1.03rem;
+    }
+    main {
+      margin-top: 80px; /* Add margin to avoid content being hidden behind fixed navbar */
+      padding: 20px;
+    }
+    .card-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .card {
+      background-color: rgb(231, 202, 227);
+      color: black;
+      margin: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      width: 300px;
+      text-align: center;
+      flex: 0 1 300px; /* Ensure cards don't shrink smaller than 300px */
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .card h2 {
+      margin-bottom: 10px;
+    }
+    .card p {
+      margin-bottom: 10px;
+    }
+    .project-btn {
+      background-color: rgb(217, 98, 223);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-transform: uppercase;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+    .project-btn:hover {
+      background-color: rgb(205, 128, 178);
+      color: white;
+    }
+    .card img {
+      width: 50%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    form {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    form input, form textarea {
+      margin-bottom: 10px;
+      padding: 10px;
+      width: 90%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    form button {
+      width: auto;
+    }
+    /* Additional styles for containers */
+    .container {
+      background-color: white;
+      color: rgb(236, 181, 233);
+      margin: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container h2 {
+      margin-bottom: 10px;
+    }
+    #videoElement, #liveStream, #snapshot {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    #snapshot {
+      display: none;
+    }
+    /* Ensure all containers fit well */
+    .container-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .gcse-search {
+      margin: 20px auto;
+      text-align: center;
+    }
+  </style>
+<!-- Google Custom Search Engine script -->
+<script async src="https://cse.google.com/cse.js?cx=a57a9383db8af4cdf"></script>
+</head>
+<body>
+ 
+  <header>
+    <nav>
+      <div><h1> Deepika Kanwar</h1></div>
+      <ul>
+        <li><a href="page1.html"></a></li>
+        <li><a href="index.html"></a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h1 style="text-align: center; margin-bottom: 20px;"> Welcome to my Projects</h1>
+    <div class="gcse-search"></div> 
+    <div class="card-container" id="projects"></div>
+    
+     
+    <div class="container-wrapper">
+      <!-- Microphone Functionality -->
+      <div class="container">
+        <h2>Voice to Text</h2>
+        <button class="project-btn" onclick="startDictation()">Start Dictation</button>
+        <p id="transcription"></p>
+      </div>
+
+      <!-- Camera Functionality -->
+      <div class="container">
+        <h2>Camera Functionality</h2>
+        <video id="videoElement" autoplay></video>
+        <button class="project-btn" onclick="takePhoto()">Take Photo</button>
+        <img id="snapshot" src="" alt="Snapshot">
+      </div>
+
+      <!-- Live Stream Functionality -->
+      <div class="container">
+        <h2>Live Stream</h2>
+        <video id="liveStream" autoplay></video>
+        <button class="project-btn" onclick="startStreaming()">Start Streaming</button>
+        <button class="project-btn" onclick="stopStreaming()">Stop Streaming</button>
+      </div>
+      <!-- ChatGPT Functionality -->
+      <div class="container">
+        <h2>Talk to ChatGPT</h2>
+        <div class="chat-box" id="chatBox"></div>
+        <textarea id="chatInput" placeholder="Ask something..." rows="4" required></textarea>
+        <button class="project-btn" onclick="talkToChatGPT()">Send</button>
+        <div class="loading" id="loading">ChatGPT is typing...</div>
+      </div>
+    </div>
+    </div>
+  </main>
+  <script>
+    const API_SERVER = 'http://127.0.0.1:5002';
+    const chatBox = document.getElementById('chatBox');
+    const loadingIndicator = document.getElementById('loading');
+
+
+    const projects = [
+      {
+        title: 'Send WhatsApp Message',
+        description: 'This project sends WhatsApp messages through Python.',
+        image: 'WhatsApp_icon.png',
+        formId: 'whatsappForm',
+        endpoint: '/send_whatsapp_message'
+      },
+      {
+        title: 'Send SMS through Python',
+        description: 'This project sends SMS through Python.',
+        image: 'chat.png',
+        formId: 'twilioForm',
+        endpoint: '/send_twilio_message'
+      },
+      {
+        title: 'Call through Python',
+        description: 'This project makes a call through Python.',
+        image: 'klipartz.com.png',
+        formId: 'callForm',
+        endpoint: '/make_twilio_call'
+      },
+      {
+        title: 'Send Email through Python',
+        description: 'This project sends an email through Python.',
+        image: 'email.png',
+        formId: 'emailForm',
+        endpoint: '/send_email'
+      },
+      {
+        title: 'Text to Speech',
+        description: 'This project converts text to speech using Python.',
+        image: 'text-to-Speech-pic.png',
+        formId: 'ttsForm',
+        endpoint: '/text_to_speech'
+      },
+      {
+        title: 'Scrape Google Search Results',
+        description: 'This project scrapes the top 5 Google search results using Python.',
+        image: 'lxml.png',
+        formId: 'scrapeForm',
+        endpoint: '/scrape_google'
+      },
+      {
+        title: 'Get Current Location',
+        description: 'This project retrieves the current geo-coordinates and location using Python.',
+        image: 'location icon.png',
+        formId: 'locationForm',
+        endpoint: '/get_location',
+        method: 'POST'
+      },
+      {
+        title: 'Set Laptop Volume',
+        description: 'This project controls the laptop volume using Python.',
+        image: 'volume.png',
+        formId: 'volumeForm',
+        endpoint: '/set_volume'
+      }
+    ];
+
+    function createProjectCard(project) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        ${project.image ? `<img src="${project.image}" alt="${project.title}">` : ''}
+        <h2>${project.title}</h2>
+        <p>${project.description}</p>
+        <form id="${project.formId}" action="${API_SERVER}${project.endpoint}" method="${project.method || 'POST'}">
+         ${project.title === 'Send Email through Python' ? '<input type="email" name="receiver_email" placeholder="Receiver Email" required><br>' : ''}
+          ${project.title !== 'Send Email through Python' && project.title !== 'Text to Speech' && project.title !== 'Scrape Google Search Results' && project.title !== 'Get Current Location' && project.title !== 'Set Laptop Volume' ? '<input type="text" name="phone_num" placeholder="Phone Number" required><br>' : ''}
+          ${project.title !== 'Call through Python' && project.title !== 'Text to Speech' && project.title !== 'Scrape Google Search Results' && project.title !== 'Get Current Location' && project.title !== 'Set Laptop Volume' ? '<input type="text" name="message" placeholder="Message" required><br>' : ''}
+           ${project.title === 'Send Email through Python' ? '<input type="text" name="subject" placeholder="Subject" required><br>' : ''}
+          ${project.title === 'Send Email through Python' ? '<textarea name="body" placeholder="Email Body" required></textarea><br>' : ''}
+          ${project.title === 'Text to Speech' ? '<textarea name="text" placeholder="Enter text to convert to speech" required></textarea><br>' : ''}
+          ${project.title === 'Scrape Google Search Results' ? '<input type="text" name="query" placeholder="Search Query" required><br>' : ''}
+          ${project.title === 'Set Laptop Volume' ? '<input type="number" name="volume_level" placeholder="Volume Level (0-100)" min="0" max="100" required><br>' : ''}
+          <button type="submit" class="project-btn">${project.title.includes('Email') ? 'Send Email' : project.title.includes('Call') ? 'Make Call' : project.title.includes('Speech') ? 'Convert to Speech' : project.title.includes('Search') ? 'Scrape Google' : project.title.includes('Location') ? 'Get Location' : project.title.includes('Volume') ? 'Set Volume' : 'Send Message'}</button>
+        </form>
+      `;
+      document.getElementById('projects').appendChild(card);
+       
+
+      document.getElementById(project.formId).addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        fetch(this.action, {
+          method: this.method || 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        .then(response => {
+          if (project.title === 'Text to Speech') {
+            return response.blob();
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (project.title === 'Text to Speech') {
+            const url = window.URL.createObjectURL(data);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'text.mp3';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+          } else if (project.title === 'Get Current Location') {
+            alert(`Your current location is: ${data.address} (Lat: ${data.coordinates[0]}, Long: ${data.coordinates[1]})`);
+          } else if (project.title === 'Scrape Google Search Results') {
+            if (data.error) {
+              alert(`Error: ${data.error}`);
+            } else {
+              const results = data.map(result => `${result.title}: ${result.link}`).join('\n');
+              alert(`Search Results:\n${results}`);
+            }
+          } else {
+            alert(data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      });
+    }
+
+    projects.forEach(createProjectCard);
+
+    // Voice to Text Functionality
+    function startDictation() {
+      if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.onresult = function(event) {
+          document.getElementById('transcription').textContent = event.results[0][0].transcript;
+        };
+        recognition.start();
+      } else {
+        alert('Speech Recognition is not supported in this browser.');
+      }
+    }
+
+    // Camera Functionality to Take Photo
+    const videoElement = document.getElementById('videoElement');
+    const snapshotElement = document.getElementById('snapshot');
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        videoElement.srcObject = stream;
+      })
+      .catch(error => {
+        console.error('Error accessing the camera: ', error);
+      });
+
+    function takePhoto() {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoElement.videoWidth;
+      canvas.height = videoElement.videoHeight;
+      const context = canvas.getContext('2d');
+      context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+      snapshotElement.src = canvas.toDataURL('image/png');
+      snapshotElement.style.display = 'block';
+    }
+
+    // Live Stream Camera
+    let liveStream = null;
+    const liveStreamElement = document.getElementById('liveStream');
+
+    function startStreaming() {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          liveStream = stream;
+          liveStreamElement.srcObject = stream;
+        })
+        .catch(error => {
+          console.error('Error accessing the live stream camera: ', error);
+        });
+    }
+
+    function stopStreaming() {
+      if (liveStream) {
+        liveStream.getTracks().forEach(track => track.stop());
+        liveStreamElement.srcObject = null;
+      }
+    }
+    function talkToChatGPT() {
+      const input = document.getElementById('chatInput').value.trim();
+      if (!input) return;
+
+      // Append user message to chat
+      const userMessage = document.createElement('p');
+      userMessage.textContent = input;
+      userMessage.classList.add('user-message');
+      chatBox.appendChild(userMessage);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Clear input field and show loading indicator
+      document.getElementById('chatInput').value = '';
+      loadingIndicator.style.display = 'block';
+
+      fetch(API_SERVER + '/chatgpt', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: input }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Hide loading indicator
+        loadingIndicator.style.display = 'none';
+
+        if (data.status === 'success') {
+          const botMessage = document.createElement('p');
+          botMessage.textContent = data.reply;
+          botMessage.classList.add('bot-message');
+          chatBox.appendChild(botMessage);
+        } else {
+          alert(`Error: ${data.message}`);
+        }
+      })
+      .catch(error => {
+        loadingIndicator.style.display = 'none';
+        alert('An error occurred. Please try again.');
+        console.error('Error:', error);
+      });
+    }
+  </script>
+</body>
+</html>
